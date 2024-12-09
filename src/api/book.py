@@ -45,3 +45,15 @@ async def add_book(
     book = await BookService(db).create_book(book_data=book_data)
     return {"status": "OK", "data": book}
 
+
+@router.get("")
+async def get_all_books(db: DBDep):
+    books = await BookService(db).get_all_books()
+    return {"status": "OK", "data": books}
+
+
+@router.get("/{id}")
+async def get_book_by_id(db: DBDep, id: int):
+    book = await BookService(db).get_book_by_id(id=id)
+    return {"status": "OK", "data": book}
+

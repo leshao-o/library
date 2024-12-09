@@ -4,7 +4,7 @@ from src.services.base import BaseService
 
 class AuthorService(BaseService):
     async def create_author(self, author_data: AuthorAdd) -> AuthorAdd:
-        author = await self.db.author.add(author_data)
+        author = await self.db.author.add(data=author_data)
         await self.db.commit()
         return author
     
