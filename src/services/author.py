@@ -4,9 +4,9 @@ from src.services.base import BaseService
 
 class AuthorService(BaseService):
     async def create_author(self, author_data: AuthorAdd) -> AuthorAdd:
-        author = await self.db.author.add(data=author_data)
+        new_author = await self.db.author.add(data=author_data)
         await self.db.commit()
-        return author
+        return new_author
     
     async def get_all_authors(self) -> list[AuthorAdd]:
         return await self.db.author.get_all()
@@ -15,11 +15,11 @@ class AuthorService(BaseService):
         return await self.db.author.get_by_id(id=id)
     
     async def edit_author(self, id: int, author_data: AuthorPatch) -> AuthorAdd:
-        author = await self.db.author.edit(id=id, data=author_data)
+        edited_author = await self.db.author.edit(id=id, data=author_data)
         await self.db.commit()
-        return author
+        return edited_author
     
     async def delete_author(self, id: int) -> AuthorAdd:
-        author = await self.db.author.delete(id=id)
+        deleted_author = await self.db.author.delete(id=id)
         await self.db.commit()
-        return author
+        return deleted_author

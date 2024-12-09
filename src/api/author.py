@@ -29,7 +29,7 @@ async def add_author(
                 },
             }
         }
-    ),
+    )
 ):
     new_author = await AuthorService(db).create_author(author_data=author_data)
     return {"status": "OK", "data": new_author}
@@ -69,7 +69,7 @@ async def edit_author(
                 },
             }
         }
-    ),
+    )
 ):
     edited_author = await AuthorService(db).edit_author(id=id, author_data=author_data)
     return {"status": "OK", "data": edited_author}

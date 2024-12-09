@@ -40,7 +40,7 @@ async def add_book(
                 },
             }
         }
-    ),
+    )
 ):
     new_book = await BookService(db).create_book(book_data=book_data)
     return {"status": "OK", "data": new_book}
@@ -86,7 +86,7 @@ async def edit_book(
                 },
             }
         }
-    ),
+    )
 ):
     edited_book = await BookService(db).edit_book(id=id, book_data=book_data)
     return {"status": "OK", "data": edited_book}
