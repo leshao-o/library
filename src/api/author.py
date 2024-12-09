@@ -4,7 +4,7 @@ from src.services.author import AuthorService
 from src.api.dependencies import DBDep
 from src.schemas.author import AuthorAdd, AuthorPatch
 
-router = APIRouter(prefix="/authors", tags=["Автор"])
+router = APIRouter(prefix="/authors", tags=["Авторы"])
 
 
 @router.post("")
