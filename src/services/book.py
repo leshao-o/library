@@ -14,3 +14,12 @@ class BookService(BaseService):
     async def get_book_by_id(self, id: int) -> BookAdd:
         return await self.db.book.get_by_id(id=id)
     
+    async def edit_book(self, id: int, book_data: BookAdd) -> BookAdd:
+        book = await self.db.book.edit(id=id, data=book_data)
+        await self.db.commit()
+        return book
+    
+    async def delete_book(self, id: int) -> BookAdd:
+        book = await self.db.book.delete(id=id)
+        await self.db.commit()
+        return book

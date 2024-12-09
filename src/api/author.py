@@ -31,8 +31,8 @@ async def add_author(
         }
     ),
 ):
-    author = await AuthorService(db).create_author(author_data=author_data)
-    return {"status": "OK", "data": author}
+    new_author = await AuthorService(db).create_author(author_data=author_data)
+    return {"status": "OK", "data": new_author}
 
 
 @router.get("")
@@ -48,7 +48,7 @@ async def get_author_by_id(db: DBDep, id: int):
 
 
 @router.put("/{id}")
-async def edit_author_data(
+async def edit_author(
     db: DBDep, 
     id: int,
     author_data: AuthorPatch = Body(
@@ -71,11 +71,11 @@ async def edit_author_data(
         }
     ),
 ):
-    author = await AuthorService(db).edit_author_data(id=id, author_data=author_data)
-    return {"status": "OK", "data": author}
+    edited_author = await AuthorService(db).edit_author(id=id, author_data=author_data)
+    return {"status": "OK", "data": edited_author}
 
 
 @router.delete("/{id}")
 async def delete_author(db: DBDep, id: int):
-    author = await AuthorService(db).delete_author(id=id)
-    return {"status": "OK", "data": author}
+    deleted_author = await AuthorService(db).delete_author(id=id)
+    return {"status": "OK", "data": deleted_author}

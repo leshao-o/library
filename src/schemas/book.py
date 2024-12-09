@@ -8,5 +8,12 @@ class BookAdd(BaseModel):
     available_copies: int
 
 
+class BookPatch(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    author_id: int | None = None
+    available_copies: int | None = None
+
+
 class Book(BookAdd):
     id: int

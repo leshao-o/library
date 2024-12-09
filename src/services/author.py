@@ -14,7 +14,7 @@ class AuthorService(BaseService):
     async def get_author_by_id(self, id: int) -> AuthorAdd:
         return await self.db.author.get_by_id(id=id)
     
-    async def edit_author_data(self, id: int, author_data: AuthorPatch) -> AuthorAdd:
+    async def edit_author(self, id: int, author_data: AuthorPatch) -> AuthorAdd:
         author = await self.db.author.edit(id=id, data=author_data)
         await self.db.commit()
         return author
