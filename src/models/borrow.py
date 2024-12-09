@@ -11,5 +11,5 @@ class BorrowsORM(Base):
     book_id: Mapped[int] = mapped_column(ForeignKey("books.id"))
     reader_name: Mapped[str] = mapped_column(String(50))
     borrow_date: Mapped[date]
-    return_date: Mapped[date]
+    return_date: Mapped[date | None]
     
