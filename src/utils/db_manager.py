@@ -10,9 +10,9 @@ class DBManager:
     async def __aenter__(self):
         self.session = self.session_factory()
 
-        self.hotels = BorrowRepository(self.session)
-        self.hotels = BookRepository(self.session)
-        self.hotels = AuthorRepository(self.session)
+        self.borrow = BorrowRepository(self.session)
+        self.book = BookRepository(self.session)
+        self.author = AuthorRepository(self.session)
 
         return self
 
