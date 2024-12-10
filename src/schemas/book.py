@@ -8,6 +8,7 @@ class BookAdd(BaseModel):
     available_copies: int
 
 
+# Модель для частичного изменения данных
 class BookPatch(BaseModel):
     title: str | None = None
     description: str | None = None

@@ -25,6 +25,9 @@ class BorrowService(BaseService):
     
     async def return_borrow(self, id: int, return_date: date) -> BorrowAdd:
         borrow = await self.db.borrow.get_by_id(id=id)
+        # Если есть return_date значит займ завершен
+        if borrow.return_date:
+            raise Exception("Книга уже была возвращена по этому займу")
         book = await self.db.book.get_by_id(id=borrow.book_id)
 
         book.available_copies += 1

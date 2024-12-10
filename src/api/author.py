@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Body
 
+from src.exceptions import AuthorNotFoundException, AuthorNotFoundHTTPException, InvalidInputException, InvalidInputHTTPException
 from src.services.author import AuthorService
 from src.api.dependencies import DBDep, PaginationDep
 from src.schemas.author import AuthorAdd, AuthorPatch
@@ -54,7 +55,10 @@ async def add_author(
     )
 )
 async def get_all_authors(db: DBDep, pagination: PaginationDep):
-    authors = await AuthorService(db).get_all_authors()
+    try:
+        authors = await AuthorService(db).get_all_authors()
+    except AuthorNotFoundException:
+        raise AuthorNotFoundHTTPException
     authors = authors[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
     return {"status": "OK", "data": authors}
 
@@ -69,7 +73,10 @@ async def get_all_authors(db: DBDep, pagination: PaginationDep):
     )
 )
 async def get_author_by_id(db: DBDep, id: int):
-    author = await AuthorService(db).get_author_by_id(id=id)
+    try:
+        author = await AuthorService(db).get_author_by_id(id=id)
+    except AuthorNotFoundException:
+        raise AuthorNotFoundHTTPException
     return {"status": "OK", "data": author}
 
 
@@ -105,7 +112,12 @@ async def edit_author(
         }
     )
 ):
-    edited_author = await AuthorService(db).edit_author(id=id, author_data=author_data)
+    try:
+        edited_author = await AuthorService(db).edit_author(id=id, author_data=author_data)
+    except InvalidInputException:
+        raise InvalidInputHTTPException
+    except AuthorNotFoundException:
+        raise AuthorNotFoundHTTPException
     return {"status": "OK", "data": edited_author}
 
 
@@ -119,5 +131,8 @@ async def edit_author(
     )
 )
 async def delete_author(db: DBDep, id: int):
-    deleted_author = await AuthorService(db).delete_author(id=id)
+    try:
+        deleted_author = await AuthorService(db).delete_author(id=id)
+    except AuthorNotFoundException:
+        raise AuthorNotFoundHTTPException
     return {"status": "OK", "data": deleted_author}
