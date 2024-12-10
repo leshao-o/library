@@ -1,6 +1,6 @@
 from src.repositories.borrow import BorrowRepository
 from src.repositories.book import BookRepository
-from src.repositories.author import AuthorRepository 
+from src.repositories.author import AuthorRepository
 
 
 class DBManager:

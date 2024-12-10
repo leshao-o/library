@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 from src.database import Base
 
+
 class BorrowsORM(Base):
     __tablename__ = "borrows"
 
@@ -12,4 +13,3 @@ class BorrowsORM(Base):
     reader_name: Mapped[str] = mapped_column(String(50))
     borrow_date: Mapped[date]
     return_date: Mapped[date | None]
-    
