@@ -8,7 +8,15 @@ from src.schemas.author import AuthorAdd, AuthorPatch
 router = APIRouter(prefix="/authors", tags=["Авторы"])
 
 
-@router.post("")
+@router.post(
+    "",
+    summary="Добавляет автора",
+    description=(
+        """Этот эндпоинт добавляет нового автора в базу данных. 
+        Ожидает имя, фамилию и дату рождения автора. 
+        Возвращает статус операции и данные нового автора."""
+    )
+)
 async def add_author(
     db: DBDep, 
     author_data: AuthorAdd = Body(
@@ -36,20 +44,44 @@ async def add_author(
     return {"status": "OK", "data": new_author}
 
 
-@router.get("")
+@router.get(
+    "",
+    summary="Получает список всех авторов",
+    description=(
+        """Этот эндпоинт возвращает список всех авторов из базы данных. 
+        Ожидает количество авторов на странице и номер страницы. 
+        Возвращает статус операции и данные авторов для указанной страницы."""
+    )
+)
 async def get_all_authors(db: DBDep, pagination: PaginationDep):
     authors = await AuthorService(db).get_all_authors()
     authors = authors[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
     return {"status": "OK", "data": authors}
 
 
-@router.get("/{id}")
+@router.get(
+    "/{id}",
+    summary="Получает данные конкретного автора",
+    description=(
+        """Этот эндпоинт возвращает информацию об авторе по его уникальному идентификатору. 
+        Ожидает ID автора. 
+        Возвращает статус операции и данные запрашиваемого автора."""
+    )
+)
 async def get_author_by_id(db: DBDep, id: int):
     author = await AuthorService(db).get_author_by_id(id=id)
     return {"status": "OK", "data": author}
 
 
-@router.put("/{id}")
+@router.put(
+    "/{id}",
+    summary="Обновляет данные конкретного автора",
+    description=(
+        """Этот эндпоинт редактирует информацию об авторе по его уникальному идентификатору. 
+        Ожидает ID автора и необязательные данные для обновления: имя, фамилию и дату рождения. 
+        Возвращает статус операции и данные автора c обновленными значениями."""
+    )
+)
 async def edit_author(
     db: DBDep, 
     id: int,
@@ -77,7 +109,15 @@ async def edit_author(
     return {"status": "OK", "data": edited_author}
 
 
-@router.delete("/{id}")
+@router.delete(
+    "/{id}",
+    summary="Удаляет автора по его уникальному идентификатору",
+    description=(
+        """Этот эндпоинт удаляет автора из базы данных по его уникальному идентификатору. 
+        Ожидает ID автора. 
+        Возвращает статус операции и данные удаленного автора."""
+    )
+)
 async def delete_author(db: DBDep, id: int):
     deleted_author = await AuthorService(db).delete_author(id=id)
     return {"status": "OK", "data": deleted_author}

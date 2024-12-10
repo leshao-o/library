@@ -8,7 +8,15 @@ from src.schemas.book import BookAdd, BookPatch
 router = APIRouter(prefix="/books", tags=["Книги"])
 
 
-@router.post("")
+@router.post(
+    "",
+    summary="Добавляет новую книгу",
+    description=(
+        """Этот эндпоинт добавяет новую книгу в базу данных. 
+        Ожидает данные о книге, включая название, описание, ID автора и количество доступных копий. 
+        Возвращает статус операции и данные добавленной книги."""
+    )
+)
 async def add_book(
     db: DBDep,
     book_data: BookAdd = Body(
@@ -47,20 +55,44 @@ async def add_book(
     return {"status": "OK", "data": new_book}
 
 
-@router.get("")
+@router.get(
+    "",
+    summary="Получает список всех книг",
+    description=(
+        """Этот эндпоинт возвращает список всех книг из базы данных. 
+        Ожидает количество книг на странице и номер страницы. 
+        Возвращает статус операции и данные книг для указанной страницы."""
+    )
+)
 async def get_all_books(db: DBDep, pagination: PaginationDep):
     books = await BookService(db).get_all_books()
     books = books[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
     return {"status": "OK", "data": books}
 
 
-@router.get("/{id}")
+@router.get(
+    "/{id}",
+    summary="Возвращает книгу по ID",
+    description=(
+        """Этот эндпоинт возвращает информацию о книге по её уникальному идентификатору. 
+        Ожидает ID книги. 
+        Возвращает статус операции и данные запрашиваемой книги."""
+    )
+)
 async def get_book_by_id(db: DBDep, id: int):
     book = await BookService(db).get_book_by_id(id=id)
     return {"status": "OK", "data": book}
 
 
-@router.put("/{id}")
+@router.put(
+    "/{id}",
+    summary="Редактирует книгу",
+    description=(
+        """Этот эндпоинт редактирует информацию о книге по её уникальному идентификатору. 
+        Ожидает ID книги и необязательные данные для обновления: название, описание, ID автора и количество доступных копий. 
+        Возвращает статус операции и обновленные данные книги."""
+    )
+)
 async def edit_book(
     db: DBDep,
     id: int,
@@ -93,7 +125,15 @@ async def edit_book(
     edited_book = await BookService(db).edit_book(id=id, book_data=book_data)
     return {"status": "OK", "data": edited_book}
 
-@router.delete("/{id}")
+@router.delete(
+    "/{id}",
+    summary="Удаляет книгу",
+    description=(
+        """Этот эндпоинт удаляет книгу из базы данных по её уникальному идентификатору. 
+        Ожидает ID книги. 
+        Возвращает статус операции и данные удалённой книги."""
+    )
+)
 async def delete_book(db: DBDep, id: int):
     deleted_book = await BookService(db).delete_book(id=id)
     return {"status": "OK", "data": deleted_book}  

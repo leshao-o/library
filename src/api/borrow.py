@@ -10,7 +10,15 @@ from src.schemas.borrow import BorrowAdd
 router = APIRouter(prefix="/borrows", tags=["Выдачи"])
 
 
-@router.post("")
+@router.post(
+    "",
+    summary="Добавляет новый займ",
+    description=(
+        """Этот эндпоинт добавляет новый займ в базу данных. 
+        Ожидает ID книги, имя читателя и дату займа. 
+        Возвращает статус операции и данные нового займа."""
+    )
+)
 async def add_borrow(
     db: DBDep, 
     borrow_data: BorrowAdd = Body(
@@ -38,20 +46,44 @@ async def add_borrow(
     return {"status": "OK", "data": new_borrow}
 
 
-@router.get("")
+@router.get(
+    "",
+    summary="Возвращает список всех займов",
+    description=(
+        """Этот эндпоинт возвращает список всех займов из базы данных. 
+        Ожидает количество займов на странице и номер страницы. 
+        Возвращает статус операции и данные займов для указанной страницы."""
+    )
+)
 async def get_all_borrows(db: DBDep, pagination: PaginationDep):
     borrows = await BorrowService(db).get_all_borrows()
     borrows = borrows[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
     return {"status": "OK", "data": borrows}
 
 
-@router.get("/{id}")
+@router.get(
+    "/{id}",
+    summary="Получает займ по ID",
+    description=(
+        """Этот эндпоинт возвращает информацию о займе по его уникальному идентификатору. 
+        Ожидает ID займа. 
+        Возвращает статус операции и данные запрашиваемого займа."""
+    )
+)
 async def get_borrow_by_id(db: DBDep, id: int):
     borrow = await BorrowService(db).get_borrow_by_id(id=id)
     return {"status": "OK", "data": borrow}
 
 
-@router.patch("/{id}/return")
+@router.patch(
+    "/{id}/return",
+    summary="Завершает займ книги",
+    description=(
+        """Этот эндпоинт позволяет отметить займ как возвращённый по его уникальному идентификатору. 
+        Ожидает ID займа и дату возврата. 
+        Возвращает статус операции и данные о возвращённом займе."""
+    )
+)
 async def return_borrow(
     db: DBDep,
     id: int,
