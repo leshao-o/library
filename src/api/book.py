@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Body
 
 from src.services.book import BookService
-from src.api.dependencies import DBDep
+from src.api.dependencies import DBDep, PaginationDep
 from src.schemas.book import BookAdd, BookPatch
+
 
 router = APIRouter(prefix="/books", tags=["Книги"])
 
@@ -47,8 +48,9 @@ async def add_book(
 
 
 @router.get("")
-async def get_all_books(db: DBDep):
+async def get_all_books(db: DBDep, pagination: PaginationDep):
     books = await BookService(db).get_all_books()
+    books = books[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
     return {"status": "OK", "data": books}
 
 

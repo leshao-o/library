@@ -3,8 +3,9 @@ from datetime import date
 from fastapi import APIRouter, Body
 
 from src.services.borrow import BorrowService
-from src.api.dependencies import DBDep
+from src.api.dependencies import DBDep, PaginationDep
 from src.schemas.borrow import BorrowAdd
+
 
 router = APIRouter(prefix="/borrows", tags=["Выдачи"])
 
@@ -38,8 +39,9 @@ async def add_borrow(
 
 
 @router.get("")
-async def get_all_borrows(db: DBDep):
+async def get_all_borrows(db: DBDep, pagination: PaginationDep):
     borrows = await BorrowService(db).get_all_borrows()
+    borrows = borrows[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
     return {"status": "OK", "data": borrows}
 
 

@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Body
 
 from src.services.author import AuthorService
-from src.api.dependencies import DBDep
+from src.api.dependencies import DBDep, PaginationDep
 from src.schemas.author import AuthorAdd, AuthorPatch
+
 
 router = APIRouter(prefix="/authors", tags=["Авторы"])
 
@@ -36,8 +37,9 @@ async def add_author(
 
 
 @router.get("")
-async def get_all_authors(db: DBDep):
+async def get_all_authors(db: DBDep, pagination: PaginationDep):
     authors = await AuthorService(db).get_all_authors()
+    authors = authors[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
     return {"status": "OK", "data": authors}
 
 
