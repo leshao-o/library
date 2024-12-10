@@ -71,15 +71,13 @@ async def add_borrow(
         Возвращает статус операции и данные займов для указанной страницы."""
     ),
 )
-async def get_all_borrows(db: DBDep, pagination: PaginationDep):
+async def get_all_borrows(db: DBDep, pagin: PaginationDep):
     try:
         borrows = await BorrowService(db).get_all_borrows()
     except BorrowNotFoundException:
         raise BorrowNotFoundHTTPException
 
-    borrows = borrows[pagination.per_page * (pagination.page - 1) :][
-        : pagination.per_page
-    ]
+    borrows = borrows[pagin.per_page * (pagin.page - 1):][:pagin.per_page]
     return {"status": "OK", "data": borrows}
 
 

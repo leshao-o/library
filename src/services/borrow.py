@@ -6,6 +6,7 @@ from src.exceptions import (
     BorrowNotFoundException,
     NoAvailableCopiesException,
     ObjectNotFoundException,
+    check_date_to_after_date_from,
 )
 from src.schemas.borrow import BorrowAdd
 from src.services.base import BaseService
@@ -45,6 +46,11 @@ class BorrowService(BaseService):
             borrow = await self.db.borrow.get_by_id(id=id)
         except ObjectNotFoundException:
             raise BorrowNotFoundException
+        
+        check_date_to_after_date_from(
+            borrow_date=borrow.borrow_date,
+            return_date=return_date,
+        )
 
         # Если есть return_date значит займ завершен
         if borrow.return_date:
