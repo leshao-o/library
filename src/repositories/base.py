@@ -18,6 +18,11 @@ class BaseRepository:
         result = await self.session.execute(stmt)
         model = self.schema.model_validate(result.scalars().one(), from_attributes=True)
         return model
+    
+    # Добавить сразу много данных
+    async def add_bulk(self, data: list[BaseModel]) -> None:
+        stmt = insert(self.model).values([item.model_dump() for item in data])
+        await self.session.execute(stmt)
 
     # Получить все данные
     async def get_all(self) -> list[BaseModel]:

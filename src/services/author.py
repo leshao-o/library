@@ -13,7 +13,7 @@ class AuthorService(BaseService):
         await self.db.commit()
         return new_author
 
-    async def get_all_authors(self) -> list[AuthorAdd]:
+    async def get_authors(self) -> list[AuthorAdd]:
         try:
             return await self.db.author.get_all()
         except ObjectNotFoundException:

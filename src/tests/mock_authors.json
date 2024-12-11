@@ -1,0 +1,27 @@
+[
+    {
+        "first_name": "Лев",
+        "last_name": "Толстой",
+        "birth_date": "1828-09-09"
+    },
+    {
+        "first_name": "Фёдор",
+        "last_name": "Достоевский",
+        "birth_date": "1821-11-11"
+    },
+    {
+        "first_name": "Антон",
+        "last_name": "Чехов",
+        "birth_date": "1860-01-29"
+    },
+    {
+        "first_name": "Иван",
+        "last_name": "Тургенев",
+        "birth_date": "1818-11-09"
+    },
+    {
+        "first_name": "Александр",
+        "last_name": "Пушкин",
+        "birth_date": "1799-06-06"
+    }
+]

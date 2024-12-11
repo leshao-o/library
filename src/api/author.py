@@ -59,9 +59,9 @@ async def add_author(
         Возвращает статус операции и данные авторов для указанной страницы."""
     ),
 )
-async def get_all_authors(db: DBDep, pagination: PaginationDep):
+async def get_authors(db: DBDep, pagination: PaginationDep):
     try:
-        authors = await AuthorService(db).get_all_authors()
+        authors = await AuthorService(db).get_authors()
     except AuthorNotFoundException:
         raise AuthorNotFoundHTTPException
 
