@@ -8,9 +8,7 @@ from alembic import context
 
 from src.database import Base
 from src.config import settings
-from src.models.author import AuthorsORM
-from src.models.book import BooksORM
-from src.models.borrow import BorrowsORM
+from src.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
