@@ -16,6 +16,4 @@ async def test_edit_book(db, data: dict, id: int):
     data_to_edit = BookPatch(**data)
     edited_book = await db.book.edit(id=id, data=data_to_edit)
 
-    # Правую часть приводим к строке, чтобы корректно проверять даты.
-    # Это никак не повлияет на другие тесты, тк все другие данные строковые
     assert data[list(data.keys())[0]] == getattr(edited_book, list(data.keys())[0])

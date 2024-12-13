@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Body
 
 from src.exceptions import (
+    AuthorNotFoundException,
+    AuthorNotFoundHTTPException,
     BookNotFoundException,
     BookNotFoundHTTPException,
     InvalidInputException,
@@ -32,7 +34,7 @@ async def add_book(
                 "value": {
                     "title": "Евгений Онегин",
                     "description": "Первый русский роман в стихах",
-                    "author_id": 2,
+                    "author_id": 1,
                     "available_copies": 5,
                 },
             },
@@ -41,7 +43,7 @@ async def add_book(
                 "value": {
                     "title": "Капитанская дочка",
                     "description": "",
-                    "author_id": 2,
+                    "author_id": 1,
                     "available_copies": 4,
                 },
             },
@@ -50,14 +52,17 @@ async def add_book(
                 "value": {
                     "title": "Война и мир",
                     "description": "Очень длинная книга",
-                    "author_id": 5,
+                    "author_id": 2,
                     "available_copies": 8,
                 },
             },
         }
     ),
 ):
-    new_book = await BookService(db).create_book(book_data=book_data)
+    try:
+        new_book = await BookService(db).create_book(book_data=book_data)
+    except AuthorNotFoundException:
+        raise AuthorNotFoundHTTPException
     return {"status": "OK", "data": new_book}
 
 

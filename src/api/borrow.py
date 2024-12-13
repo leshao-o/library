@@ -36,7 +36,7 @@ async def add_borrow(
             "1": {
                 "summary": "borrow_1",
                 "value": {
-                    "book_id": "1",
+                    "book_id": 1,
                     "reader_name": "Андрей",
                     "borrow_date": "2024-12-10",
                 },
@@ -44,7 +44,7 @@ async def add_borrow(
             "2": {
                 "summary": "borrow_2",
                 "value": {
-                    "book_id": "3",
+                    "book_id": 3,
                     "reader_name": "Алиса",
                     "borrow_date": "2024-12-13",
                 },
@@ -71,9 +71,9 @@ async def add_borrow(
         Возвращает статус операции и данные займов для указанной страницы."""
     ),
 )
-async def get_all_borrows(db: DBDep, pagin: PaginationDep):
+async def get_borrows(db: DBDep, pagin: PaginationDep):
     try:
-        borrows = await BorrowService(db).get_all_borrows()
+        borrows = await BorrowService(db).get_borrows()
     except BorrowNotFoundException:
         raise BorrowNotFoundHTTPException
 

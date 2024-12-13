@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from sqlalchemy import delete, insert, select, update
-from sqlalchemy.exc import NoResultFound, ProgrammingError
+from sqlalchemy.exc import NoResultFound, ProgrammingError, IntegrityError
 
 from src.exceptions import InvalidInputException, ObjectNotFoundException
 
@@ -15,7 +15,10 @@ class BaseRepository:
     # Добавить данные
     async def add(self, data: BaseModel) -> BaseModel:
         stmt = insert(self.model).values(**data.model_dump()).returning(self.model)
-        result = await self.session.execute(stmt)
+        try:
+            result = await self.session.execute(stmt)
+        except IntegrityError:
+            raise ObjectNotFoundException
         model = self.schema.model_validate(result.scalars().one(), from_attributes=True)
         return model
     

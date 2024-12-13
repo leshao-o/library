@@ -1,4 +1,5 @@
 from src.exceptions import (
+    AuthorNotFoundException,
     BookNotFoundException,
     InvalidInputException,
     ObjectNotFoundException,
@@ -9,7 +10,12 @@ from src.services.base import BaseService
 
 class BookService(BaseService):
     async def create_book(self, book_data: BookAdd) -> BookAdd:
-        new_book = await self.db.book.add(data=book_data)
+        try:
+            new_book = await self.db.book.add(data=book_data)
+        # Если возникла эта ошибка, то скорее всего из-за
+        # несуществующего id автора
+        except ObjectNotFoundException:
+            raise AuthorNotFoundException
         await self.db.commit()
         return new_book
 

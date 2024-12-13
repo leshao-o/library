@@ -29,7 +29,7 @@ class BorrowService(BaseService):
         await self.db.commit()
         return borrow
 
-    async def get_all_borrows(self) -> list[BorrowAdd]:
+    async def get_borrows(self) -> list[BorrowAdd]:
         try:
             return await self.db.borrow.get_all()
         except ObjectNotFoundException:

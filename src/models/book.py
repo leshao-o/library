@@ -9,5 +9,5 @@ class BooksORM(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(150))
     description: Mapped[str | None]
-    author_id: Mapped[int] = mapped_column(ForeignKey("authors.id"))
+    author_id: Mapped[int] = mapped_column(ForeignKey("authors.id", ondelete="CASCADE"))
     available_copies: Mapped[int]
