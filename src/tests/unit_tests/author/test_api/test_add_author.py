@@ -1,10 +1,10 @@
 from httpx import AsyncClient
 
 
-async def test_add_author(ac: AsyncClient, create_authors):
-    first_name = "Сергей"
-    last_name = "Есенин"
-    birth_date = "1895-10-03"
+async def test_add_author(ac: AsyncClient):
+    first_name = "имя"
+    last_name = "фамилия"
+    birth_date = "2010-10-10"
     id = 6
 
     response = await ac.post("/authors", json={

@@ -70,9 +70,9 @@ async def add_book(
         Возвращает статус операции и данные книг для указанной страницы."""
     ),
 )
-async def get_all_books(db: DBDep, pagination: PaginationDep):
+async def get_books(db: DBDep, pagination: PaginationDep):
     try:
-        books = await BookService(db).get_all_books()
+        books = await BookService(db).get_books()
     except BookNotFoundException:
         raise BookNotFoundHTTPException
 

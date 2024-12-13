@@ -13,7 +13,7 @@ class BookService(BaseService):
         await self.db.commit()
         return new_book
 
-    async def get_all_books(self) -> list[BookAdd]:
+    async def get_books(self) -> list[BookAdd]:
         try:
             return await self.db.book.get_all()
         except ObjectNotFoundException:

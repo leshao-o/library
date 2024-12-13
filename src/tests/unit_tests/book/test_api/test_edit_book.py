@@ -5,13 +5,14 @@ import pytest
 @pytest.mark.parametrize(
     "data, id", 
     [
-        ({"first_name": "Не Лев"}, 1),
-        ({"last_name": "Не Достоевский"}, 2),
-        ({"birth_date": "1111-11-11"}, 3)
+        ({"title": "Мир и война"}, 1),
+        ({"description": "Роман о преступлении и наказании"}, 2),
+        ({"author_id": 4}, 3),
+        ({"available_copies": 100}, 4)
     ]
 )
-async def test_edit_author(ac: AsyncClient, data: dict, id: int):
-    response = await ac.put(f"/authors/{id}", json=data)
+async def test_edit_book(ac: AsyncClient, data: dict, id: int):
+    response = await ac.put(f"/books/{id}", json=data)
 
     assert response.status_code == 200
     # Проверяем из полученного ответа, что данные которые передали изменились

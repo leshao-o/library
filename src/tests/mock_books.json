@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Война и мир",
+        "description": "Эпопея о жизни русского общества в начале 19 века",
+        "author_id": 1,
+        "available_copies": 5
+    },
+    {
+        "title": "Преступление и наказание",
+        "description": "Роман о моральных дилеммах и последствиях преступления",
+        "author_id": 2,
+        "available_copies": 3
+    },
+    {
+        "title": "Чайка",
+        "description": "Пьеса о любви, искусстве и человеческих отношениях",
+        "author_id": 3,
+        "available_copies": 4
+    },
+    {
+        "title": "Отцы и дети",
+        "description": "",
+        "author_id": 4,
+        "available_copies": 2
+    },
+    {
+        "title": "Евгений Онегин",
+        "description": "Поэма о любви и разочаровании в жизни",
+        "author_id": 5,
+        "available_copies": 6
+    }
+]

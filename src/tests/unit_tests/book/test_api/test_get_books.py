@@ -1,9 +1,9 @@
 from httpx import AsyncClient
 
 
-async def test_get_authors(ac: AsyncClient):
+async def test_get_books(ac: AsyncClient):
     response = await ac.get(
-        "/authors",
+        "/books",
         params={
             "page": 1,
             "per_page": 10
