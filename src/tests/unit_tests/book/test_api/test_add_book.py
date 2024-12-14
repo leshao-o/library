@@ -8,12 +8,15 @@ async def test_add_book(ac: AsyncClient):
     available_copies = 5
     id = 6
 
-    response = await ac.post("/books", json={
-        "title": title,
-        "description": description,
-        "author_id": author_id,
-        "available_copies": available_copies
-    })
+    response = await ac.post(
+        "/books",
+        json={
+            "title": title,
+            "description": description,
+            "author_id": author_id,
+            "available_copies": available_copies,
+        },
+    )
     assert response.status_code == 200
     assert response.json() == {
         "status": "OK",
@@ -22,6 +25,6 @@ async def test_add_book(ac: AsyncClient):
             "description": description,
             "author_id": author_id,
             "available_copies": available_copies,
-            "id": id
-        }
+            "id": id,
+        },
     }

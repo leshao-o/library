@@ -10,6 +10,7 @@ class BorrowAdd(BaseModel):
     return_date: date | None = None
 
 
+# Модель для частичного изменения данных
 class BorrowPatch(BaseModel):
     book_id: int | None = None
     reader_name: str | None = None

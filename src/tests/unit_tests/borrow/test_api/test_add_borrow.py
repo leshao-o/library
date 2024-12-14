@@ -12,11 +12,14 @@ async def test_add_borrow(db, ac: AsyncClient):
     # Количество доступных книг до добавления займа
     assert book.available_copies == 5
 
-    response = await ac.post("/borrows", json={
-        "book_id": book_id,
-        "reader_name": reader_name,
-        "borrow_date": borrow_date
-    })
+    response = await ac.post(
+        "/borrows",
+        json={
+            "book_id": book_id,
+            "reader_name": reader_name,
+            "borrow_date": borrow_date,
+        },
+    )
 
     assert response.status_code == 200
     assert response.json() == {
@@ -26,8 +29,8 @@ async def test_add_borrow(db, ac: AsyncClient):
             "reader_name": reader_name,
             "borrow_date": borrow_date,
             "id": id,
-            "return_date": return_date
-        }
+            "return_date": return_date,
+        },
     }
 
     book = await db.book.get_by_id(id=1)

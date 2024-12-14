@@ -13,7 +13,7 @@ class BookService(BaseService):
         try:
             new_book = await self.db.book.add(data=book_data)
         # Если возникла эта ошибка, то скорее всего из-за
-        # несуществующего id автора
+        # несуществующего автора
         except ObjectNotFoundException:
             raise AuthorNotFoundException
         await self.db.commit()

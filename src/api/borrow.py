@@ -66,7 +66,7 @@ async def add_borrow(
     "",
     summary="Возвращает список всех займов",
     description=(
-        """Этот эндпоинт возвращает список всех займов из базы данных. 
+        """Этот эндпоинт возвращает список всех займов из базы данных со страничной пагинацией. 
         Ожидает количество займов на странице и номер страницы. 
         Возвращает статус операции и данные займов для указанной страницы."""
     ),
@@ -77,7 +77,7 @@ async def get_borrows(db: DBDep, pagin: PaginationDep):
     except BorrowNotFoundException:
         raise BorrowNotFoundHTTPException
 
-    borrows = borrows[pagin.per_page * (pagin.page - 1):][:pagin.per_page]
+    borrows = borrows[pagin.per_page * (pagin.page - 1) :][: pagin.per_page]
     return {"status": "OK", "data": borrows}
 
 

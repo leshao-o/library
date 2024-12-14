@@ -12,7 +12,7 @@ class AuthorService(BaseService):
         new_author = await self.db.author.add(data=author_data)
         await self.db.commit()
         return new_author
-
+    
     async def get_authors(self) -> list[AuthorAdd]:
         try:
             return await self.db.author.get_all()

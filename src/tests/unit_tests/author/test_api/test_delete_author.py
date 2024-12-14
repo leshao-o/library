@@ -7,4 +7,4 @@ async def test_delete_author(ac: AsyncClient):
     assert response.json()["data"]["last_name"] == "Толстой"
 
     response = await ac.get("/authors/1")
-    assert response.status_code == 404 
+    assert response.status_code == 404

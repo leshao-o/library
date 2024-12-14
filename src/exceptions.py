@@ -2,7 +2,7 @@ from datetime import date
 from fastapi import HTTPException
 
 
-def check_date_to_after_date_from(borrow_date: date, return_date: date) -> None:
+def check_date(borrow_date: date, return_date: date) -> None:
     if return_date <= borrow_date:
         raise HTTPException(
             status_code=422, detail="Дата возврата не может быть раньше даты заема"

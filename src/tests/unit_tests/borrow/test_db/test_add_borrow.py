@@ -3,11 +3,11 @@ from src.schemas.borrow import BorrowAdd
 
 async def test_add_borrow(db):
     borrow = BorrowAdd(
-        book_id = "1",
-        reader_name = "имя читателя",
-        borrow_date = "2010-10-10",
+        book_id="1",
+        reader_name="имя читателя",
+        borrow_date="2010-10-10",
     )
-    
+
     new_borrow = await db.borrow.add(data=borrow)
     await db.commit()
 

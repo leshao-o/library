@@ -1,12 +1,13 @@
-from typing import AsyncGenerator
 import pytest
+from typing import AsyncGenerator
+from pydantic import BaseModel
 from httpx import ASGITransport, AsyncClient
 
 from src.schemas.borrow import BorrowAdd
 from src.schemas.book import BookAdd
 from src.schemas.author import AuthorAdd
 from src.api.dependencies import get_db
-from src.models import *
+from src.models import *  # noqa
 from src.config import settings
 from src.main import app
 from src.utils.setup_test_db import get_data_from_json, setup_database
@@ -19,15 +20,17 @@ def check_test_mode():
     assert settings.MODE == "TEST"
 
 
-# создаем таблицы, добавляем авторов, удаляем таблицы после теста
+# Создаем таблицы, добавляем данные, удаляем таблицы после теста
 @pytest.fixture(scope="module", autouse=True)
 async def create_test_data(check_test_mode):
-    authors_data = get_data_from_json("src/tests/mock_authors.json")
-    authors = [AuthorAdd.model_validate(author) for author in authors_data]
-    books_data = get_data_from_json("src/tests/mock_books.json")
-    books = [BookAdd.model_validate(book) for book in books_data]
-    borrows_data = get_data_from_json("src/tests/mock_borrows.json")
-    borrows = [BorrowAdd.model_validate(book) for book in borrows_data]
+    # Функция для загрузки и валидации данных из JSON
+    async def load_and_validate_data(file_path: str, schema: BaseModel):
+        data = get_data_from_json(file_path)
+        return [schema.model_validate(item) for item in data]
+    
+    authors = await load_and_validate_data("src/tests/data/mock_authors.json", AuthorAdd)
+    books = await load_and_validate_data("src/tests/data/mock_books.json", BookAdd)
+    borrows = await load_and_validate_data("src/tests/data/mock_borrows.json", BorrowAdd)
 
     await setup_database()
 
@@ -45,9 +48,11 @@ async def db() -> AsyncGenerator[DBManager, None]:
         yield db
 
 
-# Фикстура для создания асинхронного клиента HTTP, 
+# Фикстура для создания асинхронного клиента HTTP,
 # который будет использоваться для выполнения запросов к API
 @pytest.fixture(scope="session")
 async def ac():
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         yield ac

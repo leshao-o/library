@@ -5,10 +5,9 @@ from sqlalchemy.orm import DeclarativeBase
 from src.config import settings
 
 
-
 db_params = {}
 # Если приложение работает в тестовом режиме, используем подключение с NullPool,
-# то есть каждый раз будет создаваться новое соединение с базой для избежания 
+# то есть каждый раз будет создаваться новое соединение с базой для избежания
 # проблем с состоянием
 if settings.MODE == "TEST":
     db_params = {"poolclass": NullPool}
