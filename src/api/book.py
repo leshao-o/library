@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body
+from fastapi_cache.decorator import cache
 
 from src.exceptions import (
     AuthorNotFoundException,
@@ -75,6 +76,7 @@ async def add_book(
         Возвращает статус операции и данные книг для указанной страницы."""
     ),
 )
+@cache(expire=10)
 async def get_books(db: DBDep, pagination: PaginationDep):
     try:
         books = await BookService(db).get_books()

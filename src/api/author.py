@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body
+from fastapi_cache.decorator import cache
 
 from src.exceptions import (
     AuthorNotFoundException,
@@ -59,6 +60,7 @@ async def add_author(
         Возвращает статус операции и данные авторов для указанной страницы."""
     ),
 )
+@cache(expire=10)
 async def get_authors(db: DBDep, pagination: PaginationDep):
     try:
         authors = await AuthorService(db).get_authors()

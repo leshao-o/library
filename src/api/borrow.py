@@ -1,6 +1,7 @@
 from datetime import date
 
 from fastapi import APIRouter, Body
+from fastapi_cache.decorator import cache
 
 from src.exceptions import (
     BookAlreadyReturnedException,
@@ -71,6 +72,7 @@ async def add_borrow(
         Возвращает статус операции и данные займов для указанной страницы."""
     ),
 )
+@cache(expire=10)
 async def get_borrows(db: DBDep, pagin: PaginationDep):
     try:
         borrows = await BorrowService(db).get_borrows()
