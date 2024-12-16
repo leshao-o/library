@@ -2,6 +2,10 @@ import pytest
 from typing import AsyncGenerator
 from pydantic import BaseModel
 from httpx import ASGITransport, AsyncClient
+from unittest import mock
+
+# Мокаем декоратор кэширования для тестирования этих ручек
+mock.patch("fastapi_cache.decorator.cache", lambda *args, **krwargs: lambda f: f).start()
 
 from src.schemas.borrow import BorrowAdd
 from src.schemas.book import BookAdd
